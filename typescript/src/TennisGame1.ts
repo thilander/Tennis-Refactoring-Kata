@@ -18,8 +18,8 @@ export class TennisGame1 implements TennisGame {
   }
 
   getScore(): string {
-    if (this.isEven()) return this.evenScore();
-    if (this.inAdvantage()) return this.advantageOrWinnerScore();
+    if (this.isDraw()) return this.drawScore();
+    if (this.someoneHasAdvantage()) return this.advantageOrWinnerScore();
     return this.score();
   }
 
@@ -27,7 +27,7 @@ export class TennisGame1 implements TennisGame {
     return `${this.getScoreName(this.player1.points)}-${this.getScoreName(this.player2.points)}`;
   }
 
-  private evenScore(): string {
+  private drawScore() {
     return this.getScoreName(this.player1.points) && this.player1.points < 3
       ? `${this.getScoreName(this.player1.points)}-All`
       : 'Deuce';
@@ -39,16 +39,16 @@ export class TennisGame1 implements TennisGame {
       : `Advantage ${this.getLeader().name}`;
   }
 
-  private isEven(): boolean {
+  private isDraw(): boolean {
     return this.player1.points === this.player2.points;
   }
 
-  private inAdvantage(): boolean {
+  private someoneHasAdvantage(): boolean {
     return this.player1.points >= 4 || this.player2.points >= 4;
   }
 
   private hasWinner(): boolean {
-    return this.inAdvantage() && Math.abs(this.player1.points - this.player2.points) >= 2;
+    return this.someoneHasAdvantage() && Math.abs(this.player1.points - this.player2.points) >= 2;
   }
 
   private getLeader(): Player {
